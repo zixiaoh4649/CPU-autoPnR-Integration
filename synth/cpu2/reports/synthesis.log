@@ -1,0 +1,1133 @@
+Info: [VCS_SAVE_RESTORE_INFO] ASLR (Address Space Layout Randomization) is detected on the machine. To enable $save functionality, ASLR will be switched off and simv re-executed.
+Please use '-no_save' simv switch to avoid this.
+
+                           Design Compiler Graphical 
+                                 DC Ultra (TM)
+                                  DFTMAX (TM)
+                              Power Compiler (TM)
+                                 DesignWare (R)
+                                 DC Expert (TM)
+                               Design Vision (TM)
+                               HDL Compiler (TM)
+                               VHDL Compiler (TM)
+                                  DFT Compiler
+                               Design Compiler(R)
+
+                 Version W-2024.09 for linux64 - Aug 27, 2024 
+
+                    Copyright (c) 1988 - 2024 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+Initializing...
+Current time:       Tue May  6 14:43:27 2025
+Hostname:           fastx3-22.ews.illinois.edu
+CPU Model:          Intel(R) Xeon(R) Silver 4216 CPU @ 2.10GHz
+CPU Details:        Cores = 10 : Sockets = 19 : Cache Size = 22528 KB : Freq = 2.10 GHz
+OS:                 Linux 4.18.0-553.51.1.el8_10.x86_64
+RAM:                 23 GB (Free   6 GB)
+Swap:                 7 GB (Free   7 GB)
+Work Filesystem:    /home/zixiaoh3 mounted to ews-homes-inst-prod.engrit.illinois.edu:/ewshomes/fspool-z/zixiaoh3/linux
+Tmp Filesystem:     /tmp mounted to /dev/mapper/fastx3_22_sys-tmp
+Work Disk:           25 GB (Free  23 GB)
+Tmp Disk:            31 GB (Free  30 GB)
+
+CPU Load: 19%, Ram Free: 6 GB, Swap Free: 7 GB, Work Disk Free: 23 GB, Tmp Disk Free: 30 GB
+# set the top level module name (used elsewhere in the scripts)
+set design_toplevel cpu
+cpu
+# tell DC to put temp file in a sub folder
+define_design_lib WORK -path ./work
+1
+# creating variables that point to the required libraries
+set symbol_library [list generic.sdb]
+generic.sdb
+set synthetic_library [list dw_foundation.sldb]
+dw_foundation.sldb
+# the standard cell library, environment variable is set inside the Makefile
+set target_library [getenv STD_CELL_LIB]
+../stdcells.db
+set regfile_library regfile.db
+regfile.db
+# actual variable that lists all of the libraries
+# when you add your regfile lib, it will need to be added here
+set link_library [list "*" $target_library $synthetic_library $regfile_library]
+* ../stdcells.db dw_foundation.sldb regfile.db
+# telling DC what is clock and reset
+set design_clock_pin clk
+clk
+set design_reset_pin rst
+rst
+# analyzing all the Verilog files
+set modules [split [getenv HDL_SRCS] " "]
+/home/zixiaoh3/ece425.work/pnr_provide/synth/../hdl/cpu.sv /home/zixiaoh3/ece425.work/pnr_provide/synth/../hdl/control.sv /home/zixiaoh3/ece425.work/pnr_provide/synth/../hdl/stubs.sv /home/zixiaoh3/ece425.work/pnr_provide/synth/../hdl/datapath.sv /home/zixiaoh3/ece425.work/pnr_provide/synth/../hdl/bitslice.sv
+foreach module $modules {
+   analyze -library WORK -format sverilog "${module}"
+}
+Running PRESTO HDLC
+Compiling source file /home/zixiaoh3/ece425.work/pnr_provide/synth/../hdl/cpu.sv
+Presto compilation completed successfully.
+Loading db file '/home/zixiaoh3/ece425.work/pnr_provide/stdcells.db'
+Loading db file '/software/Synopsys-2024_x86_64/syn/W-2024.09/libraries/syn/dw_foundation.sldb'
+Loading db file '/home/zixiaoh3/ece425.work/pnr_provide/synth/regfile.db'
+Running PRESTO HDLC
+Compiling source file /home/zixiaoh3/ece425.work/pnr_provide/synth/../hdl/control.sv
+Presto compilation completed successfully.
+Running PRESTO HDLC
+Compiling source file /home/zixiaoh3/ece425.work/pnr_provide/synth/../hdl/stubs.sv
+Presto compilation completed successfully.
+Running PRESTO HDLC
+Compiling source file /home/zixiaoh3/ece425.work/pnr_provide/synth/../hdl/datapath.sv
+Presto compilation completed successfully.
+Running PRESTO HDLC
+Compiling source file /home/zixiaoh3/ece425.work/pnr_provide/synth/../hdl/bitslice.sv
+Presto compilation completed successfully.
+# elaborating the design
+elaborate $design_toplevel
+Loading db file '/software/Synopsys-2024_x86_64/syn/W-2024.09/libraries/syn/gtech.db'
+Loading db file '/software/Synopsys-2024_x86_64/syn/W-2024.09/libraries/syn/standard.sldb'
+  Loading link library 'stdcells'
+  Loading link library 'regfile'
+  Loading link library 'gtech'
+Running PRESTO HDLC
+Presto compilation completed successfully. (cpu)
+Module: cpu, Ports: 167, Input: 66, Output: 101, Inout: 0
+Module: cpu, Registers: 0, Async set/reset: 0, Sync set/reset: 0
+Information: Module report end. (ELAB-965)
+Elaborated 1 design.
+Current design is now 'cpu'.
+Information: Building the design 'control'. (HDL-193)
+Warning:  /home/zixiaoh3/ece425.work/pnr_provide/synth/../hdl/control.sv:354: DEFAULT branch of CASE statement cannot be reached. (ELAB-311)
+Warning:  /home/zixiaoh3/ece425.work/pnr_provide/synth/../hdl/control.sv:412: DEFAULT branch of CASE statement cannot be reached. (ELAB-311)
+
+Statistics for case statements in always block in file
+	'/home/zixiaoh3/ece425.work/pnr_provide/synth/../hdl/control.sv'
+============================================================
+|    Line    |  full/ parallel  |      block location      |
+============================================================
+|    207     |    user/user     | always block at line 170 |
+|    241     |    user/user     | always block at line 170 |
+|    266     |    user/user     | always block at line 170 |
+|    274     |    user/user     | always block at line 170 |
+|    287     |    user/user     | always block at line 170 |
+|    304     |    user/user     | always block at line 170 |
+|    360     |    user/user     | always block at line 170 |
+============================================================
+Presto compilation completed successfully. (control)
+Module: control, Ports: 187, Input: 37, Output: 150, Inout: 0
+Module: control, Registers: 0, Async set/reset: 0, Sync set/reset: 0
+Information: Module report end. (ELAB-965)
+Information: Building the design 'datapath'. (HDL-193)
+Presto compilation completed successfully. (datapath)
+Module: datapath, Ports: 279, Input: 179, Output: 100, Inout: 0
+Module: datapath, Registers: 0, Async set/reset: 0, Sync set/reset: 0
+Information: Module report end. (ELAB-965)
+Information: Building the design 'bitslice'. (HDL-193)
+Presto compilation completed successfully. (bitslice)
+Module: bitslice, Ports: 188, Input: 140, Output: 48, Inout: 0
+Module: bitslice, Registers: 0, Async set/reset: 0, Sync set/reset: 0
+Information: Module report end. (ELAB-965)
+Information: Building the design 'mem_mux'. (HDL-193)
+
+Statistics for case statements in always block in file
+	'/home/zixiaoh3/ece425.work/pnr_provide/synth/../hdl/stubs.sv'
+==========================================================
+|    Line    |  full/ parallel  |     block location     |
+==========================================================
+|     7      |    user/user     | always block at line 6 |
+==========================================================
+Presto compilation completed successfully. (mem_mux)
+Module: mem_mux, Ports: 9, Input: 8, Output: 1, Inout: 0
+Module: mem_mux, Registers: 0, Async set/reset: 0, Sync set/reset: 0
+Information: Module report end. (ELAB-965)
+Information: Building the design 'rd_mux'. (HDL-193)
+
+Statistics for case statements in always block in file
+	'/home/zixiaoh3/ece425.work/pnr_provide/synth/../hdl/stubs.sv'
+===========================================================
+|    Line    |  full/ parallel  |      block location     |
+===========================================================
+|     24     |    user/user     | always block at line 23 |
+===========================================================
+Presto compilation completed successfully. (rd_mux)
+Module: rd_mux, Ports: 10, Input: 9, Output: 1, Inout: 0
+Module: rd_mux, Registers: 0, Async set/reset: 0, Sync set/reset: 0
+Information: Module report end. (ELAB-965)
+Information: Building the design 'pcadder'. (HDL-193)
+Presto compilation completed successfully. (pcadder)
+Module: pcadder, Ports: 5, Input: 3, Output: 2, Inout: 0
+Module: pcadder, Registers: 0, Async set/reset: 0, Sync set/reset: 0
+Information: Module report end. (ELAB-965)
+Information: Building the design 'pc'. (HDL-193)
+
+Inferred memory devices in process in routine 'pc' in file
+	 /home/zixiaoh3/ece425.work/pnr_provide/synth/../hdl/stubs.sv'.
+==================================================================================
+|    Register Name    |   Type    | Width | Bus | MB |  Set  | Reset | ST | Line |
+==================================================================================
+|       pc_reg        | Flip-flop |   1   |  N  | N  | None  | None  | N  |  82  |
+==================================================================================
+Presto compilation completed successfully. (pc)
+Module: pc, Ports: 7, Input: 6, Output: 1, Inout: 0
+Module: pc, Registers: 1, Async set/reset: 0, Sync set/reset: 0
+Information: Module report end. (ELAB-965)
+Information: Building the design 'rs2_inverter'. (HDL-193)
+Presto compilation completed successfully. (rs2_inverter)
+Module: rs2_inverter, Ports: 3, Input: 2, Output: 1, Inout: 0
+Module: rs2_inverter, Registers: 0, Async set/reset: 0, Sync set/reset: 0
+Information: Module report end. (ELAB-965)
+Information: Building the design 'alu'. (HDL-193)
+Warning:  /home/zixiaoh3/ece425.work/pnr_provide/synth/../hdl/stubs.sv:122: DEFAULT branch of CASE statement cannot be reached. (ELAB-311)
+
+Statistics for case statements in always block in file
+	'/home/zixiaoh3/ece425.work/pnr_provide/synth/../hdl/stubs.sv'
+============================================================
+|    Line    |  full/ parallel  |      block location      |
+============================================================
+|    117     |    user/user     | always block at line 116 |
+============================================================
+Presto compilation completed successfully. (alu)
+Module: alu, Ports: 7, Input: 5, Output: 2, Inout: 0
+Module: alu, Registers: 0, Async set/reset: 0, Sync set/reset: 0
+Information: Module report end. (ELAB-965)
+Information: Building the design 'shift'. (HDL-193)
+Presto compilation completed successfully. (shift)
+Module: shift, Ports: 23, Input: 17, Output: 6, Inout: 0
+Module: shift, Registers: 0, Async set/reset: 0, Sync set/reset: 0
+Information: Module report end. (ELAB-965)
+Information: Building the design 'cmp'. (HDL-193)
+Presto compilation completed successfully. (cmp)
+Module: cmp, Ports: 6, Input: 4, Output: 2, Inout: 0
+Module: cmp, Registers: 0, Async set/reset: 0, Sync set/reset: 0
+Information: Module report end. (ELAB-965)
+Information: Building the design 'mux2_'. (HDL-193)
+Presto compilation completed successfully. (mux2_)
+Module: mux2_, Ports: 4, Input: 3, Output: 1, Inout: 0
+Module: mux2_, Registers: 0, Async set/reset: 0, Sync set/reset: 0
+Information: Module report end. (ELAB-965)
+1
+current_design $design_toplevel
+Current design is 'cpu'.
+{cpu}
+link
+
+  Linking design 'cpu'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  * (13 designs)              /home/zixiaoh3/ece425.work/pnr_provide/synth/cpu.db, etc
+  stdcells (library)          /home/zixiaoh3/ece425.work/pnr_provide/stdcells.db
+  dw_foundation.sldb (library) /software/Synopsys-2024_x86_64/syn/W-2024.09/libraries/syn/dw_foundation.sldb
+  regfile (library)           /home/zixiaoh3/ece425.work/pnr_provide/synth/regfile.db
+
+1
+# compiling the design
+compile
+CPU Load: 19%, Ram Free: 5 GB, Swap Free: 7 GB, Work Disk Free: 23 GB, Tmp Disk Free: 30 GB
+Information: Checking out the license 'DesignWare'. (SEC-104)
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Building Block Library  |         Version         | Available |
+============================================================================
+| Basic DW Building Blocks           | W-2024.09-DWBB_202409.0 |     *     |
+| Licensed DW Building Blocks        | W-2024.09-DWBB_202409.0 |     *     |
+============================================================================
+
+====================================================================================================
+| Flow Information                                                                                 |
+----------------------------------------------------------------------------------------------------
+| Flow         | Design Compiler                                                                   |
+====================================================================================================
+| Design Information                                      | Value                                  |
+====================================================================================================
+| Number of Scenarios                                     | 0                                      |
+| Leaf Cell Count                                         | 3378                                   |
+| Number of User Hierarchies                              | 386                                    |
+| Sequential Cell Count                                   | 32                                     |
+| Macro Count                                             | 0                                      |
+| Number of Power Domains                                 | 0                                      |
+| Number of Path Groups                                   | 1                                      |
+| Number of VT Class                                      | 0                                      |
+| Number of Clocks                                        | 0                                      |
+| Number of Dont Touch Cells                              | 1546                                   |
+| Number of Dont Touch Nets                               | 0                                      |
+| Number of Size Only Cells                               | 0                                      |
+| Design with UPF Data                                    | false                                  |
+====================================================================================================
+
+Information: There are 1378 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+
+
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'mux2__0'
+Module: DW01_MUX, Ports: 4, Input: 3, Output: 1, Inout: 0
+Module: DW01_MUX, Registers: 0, Async set/reset: 0, Sync set/reset: 0
+Module: DW01_mmux_width2, Ports: 7, Input: 5, Output: 2, Inout: 0
+Module: DW01_mmux_width2, Registers: 0, Async set/reset: 0, Sync set/reset: 0
+Module: DW01_mmux_width3, Ports: 10, Input: 7, Output: 3, Inout: 0
+Module: DW01_mmux_width3, Registers: 0, Async set/reset: 0, Sync set/reset: 0
+Module: DW01_mmux_width4, Ports: 13, Input: 9, Output: 4, Inout: 0
+Module: DW01_mmux_width4, Registers: 0, Async set/reset: 0, Sync set/reset: 0
+Module: DW01_mmux_width5, Ports: 16, Input: 11, Output: 5, Inout: 0
+Module: DW01_mmux_width5, Registers: 0, Async set/reset: 0, Sync set/reset: 0
+Module: DW01_NOT, Ports: 2, Input: 1, Output: 1, Inout: 0
+Module: DW01_NOT, Registers: 0, Async set/reset: 0, Sync set/reset: 0
+  Processing 'cmp_0'
+  Processing 'shift_0'
+  Processing 'alu_0'
+Module: DW01_add_width2, Ports: 8, Input: 5, Output: 3, Inout: 0
+Module: DW01_add_width2, Registers: 0, Async set/reset: 0, Sync set/reset: 0
+Module: DW01_NAND2, Ports: 3, Input: 2, Output: 1, Inout: 0
+Module: DW01_NAND2, Registers: 0, Async set/reset: 0, Sync set/reset: 0
+  Processing 'rs2_inverter_0'
+  Processing 'pc_0'
+  Processing 'pcadder_0'
+  Processing 'rd_mux_0'
+  Processing 'mem_mux_0'
+  Processing 'bitslice_0'
+  Processing 'datapath'
+  Processing 'control'
+  Processing 'cpu'
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+Information: Design 'cpu' has no optimization constraints set. (OPT-108)
+
+  Beginning Implementation Selection
+  ----------------------------------
+  Mapping 'DW_leftsh'
+Information: Added key list 'DesignWare' to design 'control'. (DDB-72)
+  Mapping 'DW_leftsh'
+  Mapping 'DW_leftsh'
+
+  Beginning Mapping Optimizations  (Medium effort)
+  -------------------------------
+  Structuring 'mux2__95'
+  Mapping 'mux2__95'
+  Structuring 'mux2__94'
+  Mapping 'mux2__94'
+  Structuring 'mux2__93'
+  Mapping 'mux2__93'
+  Structuring 'mux2__92'
+  Mapping 'mux2__92'
+  Structuring 'mux2__91'
+  Mapping 'mux2__91'
+  Structuring 'mux2__90'
+  Mapping 'mux2__90'
+  Structuring 'mux2__89'
+  Mapping 'mux2__89'
+  Structuring 'mux2__88'
+  Mapping 'mux2__88'
+  Structuring 'mux2__87'
+  Mapping 'mux2__87'
+  Structuring 'mux2__86'
+  Mapping 'mux2__86'
+  Structuring 'mux2__85'
+  Mapping 'mux2__85'
+  Structuring 'mux2__84'
+  Mapping 'mux2__84'
+  Structuring 'mux2__83'
+  Mapping 'mux2__83'
+  Structuring 'mux2__82'
+  Mapping 'mux2__82'
+  Structuring 'mux2__81'
+  Mapping 'mux2__81'
+  Structuring 'mux2__80'
+  Mapping 'mux2__80'
+  Structuring 'mux2__79'
+  Mapping 'mux2__79'
+  Structuring 'mux2__78'
+  Mapping 'mux2__78'
+  Structuring 'mux2__77'
+  Mapping 'mux2__77'
+  Structuring 'mux2__76'
+  Mapping 'mux2__76'
+  Structuring 'mux2__75'
+  Mapping 'mux2__75'
+  Structuring 'mux2__74'
+  Mapping 'mux2__74'
+  Structuring 'mux2__73'
+  Mapping 'mux2__73'
+  Structuring 'mux2__72'
+  Mapping 'mux2__72'
+  Structuring 'mux2__71'
+  Mapping 'mux2__71'
+  Structuring 'mux2__70'
+  Mapping 'mux2__70'
+  Structuring 'mux2__69'
+  Mapping 'mux2__69'
+  Structuring 'mux2__68'
+  Mapping 'mux2__68'
+  Structuring 'mux2__67'
+  Mapping 'mux2__67'
+  Structuring 'mux2__66'
+  Mapping 'mux2__66'
+  Structuring 'mux2__65'
+  Mapping 'mux2__65'
+  Structuring 'mux2__64'
+  Mapping 'mux2__64'
+  Structuring 'mux2__63'
+  Mapping 'mux2__63'
+  Structuring 'mux2__62'
+  Mapping 'mux2__62'
+  Structuring 'mux2__61'
+  Mapping 'mux2__61'
+  Structuring 'mux2__60'
+  Mapping 'mux2__60'
+  Structuring 'mux2__59'
+  Mapping 'mux2__59'
+  Structuring 'mux2__58'
+  Mapping 'mux2__58'
+  Structuring 'mux2__57'
+  Mapping 'mux2__57'
+  Structuring 'mux2__56'
+  Mapping 'mux2__56'
+  Structuring 'mux2__55'
+  Mapping 'mux2__55'
+  Structuring 'mux2__54'
+  Mapping 'mux2__54'
+  Structuring 'mux2__53'
+  Mapping 'mux2__53'
+  Structuring 'mux2__52'
+  Mapping 'mux2__52'
+  Structuring 'mux2__51'
+  Mapping 'mux2__51'
+  Structuring 'mux2__50'
+  Mapping 'mux2__50'
+  Structuring 'mux2__49'
+  Mapping 'mux2__49'
+  Structuring 'mux2__48'
+  Mapping 'mux2__48'
+  Structuring 'mux2__47'
+  Mapping 'mux2__47'
+  Structuring 'mux2__46'
+  Mapping 'mux2__46'
+  Structuring 'mux2__45'
+  Mapping 'mux2__45'
+  Structuring 'mux2__44'
+  Mapping 'mux2__44'
+  Structuring 'mux2__43'
+  Mapping 'mux2__43'
+  Structuring 'mux2__42'
+  Mapping 'mux2__42'
+  Structuring 'mux2__41'
+  Mapping 'mux2__41'
+  Structuring 'mux2__40'
+  Mapping 'mux2__40'
+  Structuring 'mux2__39'
+  Mapping 'mux2__39'
+  Structuring 'mux2__38'
+  Mapping 'mux2__38'
+  Structuring 'mux2__37'
+  Mapping 'mux2__37'
+  Structuring 'mux2__36'
+  Mapping 'mux2__36'
+  Structuring 'mux2__35'
+  Mapping 'mux2__35'
+  Structuring 'mux2__34'
+  Mapping 'mux2__34'
+  Structuring 'mux2__33'
+  Mapping 'mux2__33'
+  Structuring 'mux2__32'
+  Mapping 'mux2__32'
+  Structuring 'mux2__31'
+  Mapping 'mux2__31'
+  Structuring 'mux2__30'
+  Mapping 'mux2__30'
+  Structuring 'mux2__29'
+  Mapping 'mux2__29'
+  Structuring 'mux2__28'
+  Mapping 'mux2__28'
+  Structuring 'mux2__27'
+  Mapping 'mux2__27'
+  Structuring 'mux2__26'
+  Mapping 'mux2__26'
+  Structuring 'mux2__25'
+  Mapping 'mux2__25'
+  Structuring 'mux2__24'
+  Mapping 'mux2__24'
+  Structuring 'mux2__23'
+  Mapping 'mux2__23'
+  Structuring 'mux2__22'
+  Mapping 'mux2__22'
+  Structuring 'mux2__21'
+  Mapping 'mux2__21'
+  Structuring 'mux2__20'
+  Mapping 'mux2__20'
+  Structuring 'mux2__19'
+  Mapping 'mux2__19'
+  Structuring 'mux2__18'
+  Mapping 'mux2__18'
+  Structuring 'mux2__17'
+  Mapping 'mux2__17'
+  Structuring 'mux2__16'
+  Mapping 'mux2__16'
+  Structuring 'mux2__15'
+  Mapping 'mux2__15'
+  Structuring 'mux2__14'
+  Mapping 'mux2__14'
+  Structuring 'mux2__13'
+  Mapping 'mux2__13'
+  Structuring 'mux2__12'
+  Mapping 'mux2__12'
+  Structuring 'mux2__11'
+  Mapping 'mux2__11'
+  Structuring 'mux2__10'
+  Mapping 'mux2__10'
+  Structuring 'mux2__9'
+  Mapping 'mux2__9'
+  Structuring 'mux2__8'
+  Mapping 'mux2__8'
+  Structuring 'mux2__7'
+  Mapping 'mux2__7'
+  Structuring 'mux2__6'
+  Mapping 'mux2__6'
+  Structuring 'mux2__5'
+  Mapping 'mux2__5'
+  Structuring 'mux2__4'
+  Mapping 'mux2__4'
+  Structuring 'mux2__3'
+  Mapping 'mux2__3'
+  Structuring 'mux2__2'
+  Mapping 'mux2__2'
+  Structuring 'mux2__1'
+  Mapping 'mux2__1'
+  Structuring 'cmp_31'
+  Mapping 'cmp_31'
+  Structuring 'cmp_30'
+  Mapping 'cmp_30'
+  Structuring 'cmp_29'
+  Mapping 'cmp_29'
+  Structuring 'cmp_28'
+  Mapping 'cmp_28'
+  Structuring 'cmp_27'
+  Mapping 'cmp_27'
+  Structuring 'cmp_26'
+  Mapping 'cmp_26'
+  Structuring 'cmp_25'
+  Mapping 'cmp_25'
+  Structuring 'cmp_24'
+  Mapping 'cmp_24'
+  Structuring 'cmp_23'
+  Mapping 'cmp_23'
+  Structuring 'cmp_22'
+  Mapping 'cmp_22'
+  Structuring 'cmp_21'
+  Mapping 'cmp_21'
+  Structuring 'cmp_20'
+  Mapping 'cmp_20'
+  Structuring 'cmp_19'
+  Mapping 'cmp_19'
+  Structuring 'cmp_18'
+  Mapping 'cmp_18'
+  Structuring 'cmp_17'
+  Mapping 'cmp_17'
+  Structuring 'cmp_16'
+  Mapping 'cmp_16'
+  Structuring 'cmp_15'
+  Mapping 'cmp_15'
+  Structuring 'cmp_14'
+  Mapping 'cmp_14'
+  Structuring 'cmp_13'
+  Mapping 'cmp_13'
+  Structuring 'cmp_12'
+  Mapping 'cmp_12'
+  Structuring 'cmp_11'
+  Mapping 'cmp_11'
+  Structuring 'cmp_10'
+  Mapping 'cmp_10'
+  Structuring 'cmp_9'
+  Mapping 'cmp_9'
+  Structuring 'cmp_8'
+  Mapping 'cmp_8'
+  Structuring 'cmp_7'
+  Mapping 'cmp_7'
+  Structuring 'cmp_6'
+  Mapping 'cmp_6'
+  Structuring 'cmp_5'
+  Mapping 'cmp_5'
+  Structuring 'cmp_4'
+  Mapping 'cmp_4'
+  Structuring 'cmp_3'
+  Mapping 'cmp_3'
+  Structuring 'cmp_2'
+  Mapping 'cmp_2'
+  Structuring 'cmp_1'
+  Mapping 'cmp_1'
+  Structuring 'shift_31'
+  Mapping 'shift_31'
+  Structuring 'shift_30'
+  Mapping 'shift_30'
+  Structuring 'shift_29'
+  Mapping 'shift_29'
+  Structuring 'shift_28'
+  Mapping 'shift_28'
+  Structuring 'shift_27'
+  Mapping 'shift_27'
+  Structuring 'shift_26'
+  Mapping 'shift_26'
+  Structuring 'shift_25'
+  Mapping 'shift_25'
+  Structuring 'shift_24'
+  Mapping 'shift_24'
+  Structuring 'shift_23'
+  Mapping 'shift_23'
+  Structuring 'shift_22'
+  Mapping 'shift_22'
+  Structuring 'shift_21'
+  Mapping 'shift_21'
+  Structuring 'shift_20'
+  Mapping 'shift_20'
+  Structuring 'shift_19'
+  Mapping 'shift_19'
+  Structuring 'shift_18'
+  Mapping 'shift_18'
+  Structuring 'shift_17'
+  Mapping 'shift_17'
+  Structuring 'shift_16'
+  Mapping 'shift_16'
+  Structuring 'shift_15'
+  Mapping 'shift_15'
+  Structuring 'shift_14'
+  Mapping 'shift_14'
+  Structuring 'shift_13'
+  Mapping 'shift_13'
+  Structuring 'shift_12'
+  Mapping 'shift_12'
+  Structuring 'shift_11'
+  Mapping 'shift_11'
+  Structuring 'shift_10'
+  Mapping 'shift_10'
+  Structuring 'shift_9'
+  Mapping 'shift_9'
+  Structuring 'shift_8'
+  Mapping 'shift_8'
+  Structuring 'shift_7'
+  Mapping 'shift_7'
+  Structuring 'shift_6'
+  Mapping 'shift_6'
+  Structuring 'shift_5'
+  Mapping 'shift_5'
+  Structuring 'shift_4'
+  Mapping 'shift_4'
+  Structuring 'shift_3'
+  Mapping 'shift_3'
+  Structuring 'shift_2'
+  Mapping 'shift_2'
+  Structuring 'shift_1'
+  Mapping 'shift_1'
+  Structuring 'alu_31'
+  Mapping 'alu_31'
+  Structuring 'alu_30'
+  Mapping 'alu_30'
+  Structuring 'alu_29'
+  Mapping 'alu_29'
+  Structuring 'alu_28'
+  Mapping 'alu_28'
+  Structuring 'alu_27'
+  Mapping 'alu_27'
+  Structuring 'alu_26'
+  Mapping 'alu_26'
+  Structuring 'alu_25'
+  Mapping 'alu_25'
+  Structuring 'alu_24'
+  Mapping 'alu_24'
+  Structuring 'alu_23'
+  Mapping 'alu_23'
+  Structuring 'alu_22'
+  Mapping 'alu_22'
+  Structuring 'alu_21'
+  Mapping 'alu_21'
+  Structuring 'alu_20'
+  Mapping 'alu_20'
+  Structuring 'alu_19'
+  Mapping 'alu_19'
+  Structuring 'alu_18'
+  Mapping 'alu_18'
+  Structuring 'alu_17'
+  Mapping 'alu_17'
+  Structuring 'alu_16'
+  Mapping 'alu_16'
+  Structuring 'alu_15'
+  Mapping 'alu_15'
+  Structuring 'alu_14'
+  Mapping 'alu_14'
+  Structuring 'alu_13'
+  Mapping 'alu_13'
+  Structuring 'alu_12'
+  Mapping 'alu_12'
+  Structuring 'alu_11'
+  Mapping 'alu_11'
+  Structuring 'alu_10'
+  Mapping 'alu_10'
+  Structuring 'alu_9'
+  Mapping 'alu_9'
+  Structuring 'alu_8'
+  Mapping 'alu_8'
+  Structuring 'alu_7'
+  Mapping 'alu_7'
+  Structuring 'alu_6'
+  Mapping 'alu_6'
+  Structuring 'alu_5'
+  Mapping 'alu_5'
+  Structuring 'alu_4'
+  Mapping 'alu_4'
+  Structuring 'alu_3'
+  Mapping 'alu_3'
+  Structuring 'alu_2'
+  Mapping 'alu_2'
+  Structuring 'alu_1'
+  Mapping 'alu_1'
+  Structuring 'rs2_inverter_31'
+  Mapping 'rs2_inverter_31'
+  Structuring 'rs2_inverter_30'
+  Mapping 'rs2_inverter_30'
+  Structuring 'rs2_inverter_29'
+  Mapping 'rs2_inverter_29'
+  Structuring 'rs2_inverter_28'
+  Mapping 'rs2_inverter_28'
+  Structuring 'rs2_inverter_27'
+  Mapping 'rs2_inverter_27'
+  Structuring 'rs2_inverter_26'
+  Mapping 'rs2_inverter_26'
+  Structuring 'rs2_inverter_25'
+  Mapping 'rs2_inverter_25'
+  Structuring 'rs2_inverter_24'
+  Mapping 'rs2_inverter_24'
+  Structuring 'rs2_inverter_23'
+  Mapping 'rs2_inverter_23'
+  Structuring 'rs2_inverter_22'
+  Mapping 'rs2_inverter_22'
+  Structuring 'rs2_inverter_21'
+  Mapping 'rs2_inverter_21'
+  Structuring 'rs2_inverter_20'
+  Mapping 'rs2_inverter_20'
+  Structuring 'rs2_inverter_19'
+  Mapping 'rs2_inverter_19'
+  Structuring 'rs2_inverter_18'
+  Mapping 'rs2_inverter_18'
+  Structuring 'rs2_inverter_17'
+  Mapping 'rs2_inverter_17'
+  Structuring 'rs2_inverter_16'
+  Mapping 'rs2_inverter_16'
+  Structuring 'rs2_inverter_15'
+  Mapping 'rs2_inverter_15'
+  Structuring 'rs2_inverter_14'
+  Mapping 'rs2_inverter_14'
+  Structuring 'rs2_inverter_13'
+  Mapping 'rs2_inverter_13'
+  Structuring 'rs2_inverter_12'
+  Mapping 'rs2_inverter_12'
+  Structuring 'rs2_inverter_11'
+  Mapping 'rs2_inverter_11'
+  Structuring 'rs2_inverter_10'
+  Mapping 'rs2_inverter_10'
+  Structuring 'rs2_inverter_9'
+  Mapping 'rs2_inverter_9'
+  Structuring 'rs2_inverter_8'
+  Mapping 'rs2_inverter_8'
+  Structuring 'rs2_inverter_7'
+  Mapping 'rs2_inverter_7'
+  Structuring 'rs2_inverter_6'
+  Mapping 'rs2_inverter_6'
+  Structuring 'rs2_inverter_5'
+  Mapping 'rs2_inverter_5'
+  Structuring 'rs2_inverter_4'
+  Mapping 'rs2_inverter_4'
+  Structuring 'rs2_inverter_3'
+  Mapping 'rs2_inverter_3'
+  Structuring 'rs2_inverter_2'
+  Mapping 'rs2_inverter_2'
+  Structuring 'rs2_inverter_1'
+  Mapping 'rs2_inverter_1'
+  Structuring 'pc_31'
+  Mapping 'pc_31'
+  Structuring 'pc_30'
+  Mapping 'pc_30'
+  Structuring 'pc_29'
+  Mapping 'pc_29'
+  Structuring 'pc_28'
+  Mapping 'pc_28'
+  Structuring 'pc_27'
+  Mapping 'pc_27'
+  Structuring 'pc_26'
+  Mapping 'pc_26'
+  Structuring 'pc_25'
+  Mapping 'pc_25'
+  Structuring 'pc_24'
+  Mapping 'pc_24'
+  Structuring 'pc_23'
+  Mapping 'pc_23'
+  Structuring 'pc_22'
+  Mapping 'pc_22'
+  Structuring 'pc_21'
+  Mapping 'pc_21'
+  Structuring 'pc_20'
+  Mapping 'pc_20'
+  Structuring 'pc_19'
+  Mapping 'pc_19'
+  Structuring 'pc_18'
+  Mapping 'pc_18'
+  Structuring 'pc_17'
+  Mapping 'pc_17'
+  Structuring 'pc_16'
+  Mapping 'pc_16'
+  Structuring 'pc_15'
+  Mapping 'pc_15'
+  Structuring 'pc_14'
+  Mapping 'pc_14'
+  Structuring 'pc_13'
+  Mapping 'pc_13'
+  Structuring 'pc_12'
+  Mapping 'pc_12'
+  Structuring 'pc_11'
+  Mapping 'pc_11'
+  Structuring 'pc_10'
+  Mapping 'pc_10'
+  Structuring 'pc_9'
+  Mapping 'pc_9'
+  Structuring 'pc_8'
+  Mapping 'pc_8'
+  Structuring 'pc_7'
+  Mapping 'pc_7'
+  Structuring 'pc_6'
+  Mapping 'pc_6'
+  Structuring 'pc_5'
+  Mapping 'pc_5'
+  Structuring 'pc_4'
+  Mapping 'pc_4'
+  Structuring 'pc_3'
+  Mapping 'pc_3'
+  Structuring 'pc_2'
+  Mapping 'pc_2'
+  Structuring 'pc_1'
+  Mapping 'pc_1'
+  Structuring 'pcadder_31'
+  Mapping 'pcadder_31'
+  Structuring 'pcadder_30'
+  Mapping 'pcadder_30'
+  Structuring 'pcadder_29'
+  Mapping 'pcadder_29'
+  Structuring 'pcadder_28'
+  Mapping 'pcadder_28'
+  Structuring 'pcadder_27'
+  Mapping 'pcadder_27'
+  Structuring 'pcadder_26'
+  Mapping 'pcadder_26'
+  Structuring 'pcadder_25'
+  Mapping 'pcadder_25'
+  Structuring 'pcadder_24'
+  Mapping 'pcadder_24'
+  Structuring 'pcadder_23'
+  Mapping 'pcadder_23'
+  Structuring 'pcadder_22'
+  Mapping 'pcadder_22'
+  Structuring 'pcadder_21'
+  Mapping 'pcadder_21'
+  Structuring 'pcadder_20'
+  Mapping 'pcadder_20'
+  Structuring 'pcadder_19'
+  Mapping 'pcadder_19'
+  Structuring 'pcadder_18'
+  Mapping 'pcadder_18'
+  Structuring 'pcadder_17'
+  Mapping 'pcadder_17'
+  Structuring 'pcadder_16'
+  Mapping 'pcadder_16'
+  Structuring 'pcadder_15'
+  Mapping 'pcadder_15'
+  Structuring 'pcadder_14'
+  Mapping 'pcadder_14'
+  Structuring 'pcadder_13'
+  Mapping 'pcadder_13'
+  Structuring 'pcadder_12'
+  Mapping 'pcadder_12'
+  Structuring 'pcadder_11'
+  Mapping 'pcadder_11'
+  Structuring 'pcadder_10'
+  Mapping 'pcadder_10'
+  Structuring 'pcadder_9'
+  Mapping 'pcadder_9'
+  Structuring 'pcadder_8'
+  Mapping 'pcadder_8'
+  Structuring 'pcadder_7'
+  Mapping 'pcadder_7'
+  Structuring 'pcadder_6'
+  Mapping 'pcadder_6'
+  Structuring 'pcadder_5'
+  Mapping 'pcadder_5'
+  Structuring 'pcadder_4'
+  Mapping 'pcadder_4'
+  Structuring 'pcadder_3'
+  Mapping 'pcadder_3'
+  Structuring 'pcadder_2'
+  Mapping 'pcadder_2'
+  Structuring 'pcadder_1'
+  Mapping 'pcadder_1'
+  Structuring 'rd_mux_31'
+  Mapping 'rd_mux_31'
+  Structuring 'rd_mux_30'
+  Mapping 'rd_mux_30'
+  Structuring 'rd_mux_29'
+  Mapping 'rd_mux_29'
+  Structuring 'rd_mux_28'
+  Mapping 'rd_mux_28'
+  Structuring 'rd_mux_27'
+  Mapping 'rd_mux_27'
+  Structuring 'rd_mux_26'
+  Mapping 'rd_mux_26'
+  Structuring 'rd_mux_25'
+  Mapping 'rd_mux_25'
+  Structuring 'rd_mux_24'
+  Mapping 'rd_mux_24'
+  Structuring 'rd_mux_23'
+  Mapping 'rd_mux_23'
+  Structuring 'rd_mux_22'
+  Mapping 'rd_mux_22'
+  Structuring 'rd_mux_21'
+  Mapping 'rd_mux_21'
+  Structuring 'rd_mux_20'
+  Mapping 'rd_mux_20'
+  Structuring 'rd_mux_19'
+  Mapping 'rd_mux_19'
+  Structuring 'rd_mux_18'
+  Mapping 'rd_mux_18'
+  Structuring 'rd_mux_17'
+  Mapping 'rd_mux_17'
+  Structuring 'rd_mux_16'
+  Mapping 'rd_mux_16'
+  Structuring 'rd_mux_15'
+  Mapping 'rd_mux_15'
+  Structuring 'rd_mux_14'
+  Mapping 'rd_mux_14'
+  Structuring 'rd_mux_13'
+  Mapping 'rd_mux_13'
+  Structuring 'rd_mux_12'
+  Mapping 'rd_mux_12'
+  Structuring 'rd_mux_11'
+  Mapping 'rd_mux_11'
+  Structuring 'rd_mux_10'
+  Mapping 'rd_mux_10'
+  Structuring 'rd_mux_9'
+  Mapping 'rd_mux_9'
+  Structuring 'rd_mux_8'
+  Mapping 'rd_mux_8'
+  Structuring 'rd_mux_7'
+  Mapping 'rd_mux_7'
+  Structuring 'rd_mux_6'
+  Mapping 'rd_mux_6'
+  Structuring 'rd_mux_5'
+  Mapping 'rd_mux_5'
+  Structuring 'rd_mux_4'
+  Mapping 'rd_mux_4'
+  Structuring 'rd_mux_3'
+  Mapping 'rd_mux_3'
+  Structuring 'rd_mux_2'
+  Mapping 'rd_mux_2'
+  Structuring 'rd_mux_1'
+  Mapping 'rd_mux_1'
+  Structuring 'mem_mux_31'
+  Mapping 'mem_mux_31'
+  Structuring 'mem_mux_30'
+  Mapping 'mem_mux_30'
+  Structuring 'mem_mux_29'
+  Mapping 'mem_mux_29'
+  Structuring 'mem_mux_28'
+  Mapping 'mem_mux_28'
+  Structuring 'mem_mux_27'
+  Mapping 'mem_mux_27'
+  Structuring 'mem_mux_26'
+  Mapping 'mem_mux_26'
+  Structuring 'mem_mux_25'
+  Mapping 'mem_mux_25'
+  Structuring 'mem_mux_24'
+  Mapping 'mem_mux_24'
+  Structuring 'mem_mux_23'
+  Mapping 'mem_mux_23'
+  Structuring 'mem_mux_22'
+  Mapping 'mem_mux_22'
+  Structuring 'mem_mux_21'
+  Mapping 'mem_mux_21'
+  Structuring 'mem_mux_20'
+  Mapping 'mem_mux_20'
+  Structuring 'mem_mux_19'
+  Mapping 'mem_mux_19'
+  Structuring 'mem_mux_18'
+  Mapping 'mem_mux_18'
+  Structuring 'mem_mux_17'
+  Mapping 'mem_mux_17'
+  Structuring 'mem_mux_16'
+  Mapping 'mem_mux_16'
+  Structuring 'mem_mux_15'
+  Mapping 'mem_mux_15'
+  Structuring 'mem_mux_14'
+  Mapping 'mem_mux_14'
+  Structuring 'mem_mux_13'
+  Mapping 'mem_mux_13'
+  Structuring 'mem_mux_12'
+  Mapping 'mem_mux_12'
+  Structuring 'mem_mux_11'
+  Mapping 'mem_mux_11'
+  Structuring 'mem_mux_10'
+  Mapping 'mem_mux_10'
+  Structuring 'mem_mux_9'
+  Mapping 'mem_mux_9'
+  Structuring 'mem_mux_8'
+  Mapping 'mem_mux_8'
+  Structuring 'mem_mux_7'
+  Mapping 'mem_mux_7'
+  Structuring 'mem_mux_6'
+  Mapping 'mem_mux_6'
+  Structuring 'mem_mux_5'
+  Mapping 'mem_mux_5'
+  Structuring 'mem_mux_4'
+  Mapping 'mem_mux_4'
+  Structuring 'mem_mux_3'
+  Mapping 'mem_mux_3'
+  Structuring 'mem_mux_2'
+  Mapping 'mem_mux_2'
+  Structuring 'mem_mux_1'
+  Mapping 'mem_mux_1'
+  Structuring 'mux2__0'
+  Mapping 'mux2__0'
+  Structuring 'cmp_0'
+  Mapping 'cmp_0'
+  Structuring 'shift_0'
+  Mapping 'shift_0'
+  Structuring 'alu_0'
+  Mapping 'alu_0'
+  Structuring 'rs2_inverter_0'
+  Mapping 'rs2_inverter_0'
+  Structuring 'pc_0'
+  Mapping 'pc_0'
+  Structuring 'pcadder_0'
+  Mapping 'pcadder_0'
+  Structuring 'rd_mux_0'
+  Mapping 'rd_mux_0'
+  Structuring 'mem_mux_0'
+  Mapping 'mem_mux_0'
+  Structuring 'control'
+  Mapping 'control'
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:00:06    2107.0      0.00       0.0       0.0                          
+    0:00:06    2107.0      0.00       0.0       0.0                          
+    0:00:06    2107.0      0.00       0.0       0.0                          
+    0:00:06    2107.0      0.00       0.0       0.0                          
+    0:00:06    2107.0      0.00       0.0       0.0                          
+    0:00:06    2107.0      0.00       0.0       0.0                          
+    0:00:06    2107.0      0.00       0.0       0.0                          
+    0:00:06    2107.0      0.00       0.0       0.0                          
+    0:00:06    2107.0      0.00       0.0       0.0                          
+    0:00:06    2107.0      0.00       0.0       0.0                          
+    0:00:06    2107.0      0.00       0.0       0.0                          
+    0:00:06    2107.0      0.00       0.0       0.0                          
+
+
+
+  Beginning Delay Optimization Phase
+  ----------------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:00:06    2107.0      0.00       0.0       0.0                          
+    0:00:06    2107.0      0.00       0.0       0.0                          
+    0:00:06    2107.0      0.00       0.0       0.0                          
+    0:00:06    2107.0      0.00       0.0       0.0                          
+    0:00:06    2107.0      0.00       0.0       0.0                          
+
+
+  Beginning Area-Recovery Phase  (cleanup)
+  -----------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:00:06    2107.0      0.00       0.0       0.0                          
+    0:00:06    2107.0      0.00       0.0       0.0                          
+    0:00:06    2100.0      0.00       0.0       0.0                          
+    0:00:06    2098.0      0.00       0.0       0.0                          
+    0:00:06    2092.0      0.00       0.0       0.0                          
+    0:00:06    2086.0      0.00       0.0       0.0                          
+    0:00:06    2080.0      0.00       0.0       0.0                          
+    0:00:06    2080.0      0.00       0.0       0.0                          
+    0:00:06    2080.0      0.00       0.0       0.0                          
+    0:00:06    2080.0      0.00       0.0       0.0                          
+    0:00:06    2080.0      0.00       0.0       0.0                          
+    0:00:06    2080.0      0.00       0.0       0.0                          
+    0:00:06    2080.0      0.00       0.0       0.0                          
+    0:00:06    2080.0      0.00       0.0       0.0                          
+Loading db file '/home/zixiaoh3/ece425.work/pnr_provide/stdcells.db'
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+CPU Load: 20%, Ram Free: 5 GB, Swap Free: 7 GB, Work Disk Free: 23 GB, Tmp Disk Free: 30 GB
+Information: Total number of MV cells in the design.
+----------------------------------------------------------------------------------------------------
+ MV Cells                                           Total Number                                   
+----------------------------------------------------------------------------------------------------
+ Level Shifter:                                     0                                             
+ Enable Level Shifter:                              0                                             
+ Isolation Cell:                                    0                                             
+ Retention Cell:                                    0                                             
+ Retention Clamp Cell:                              0                                             
+ Switch Cell:                                       0                                             
+ Always-On Cell:                                    0                                             
+ Repeater Cell:                                     0                                             
+
+----------------------------------------------------------------------------------------------------
+Unmapped MV Cells 
+----------------------------------------------------------------------------------------------------
+0 Isolation Cells are unmapped 
+0 Retention Clamp Cells are unmapped 
+----------------------------------------------------------------------------------------------------
+1
+current_design $design_toplevel
+Current design is 'cpu'.
+{cpu}
+# write the DC save file so DV can open it later
+write_file -format ddc -hierarchy -output outputs/synth.ddc
+Writing ddc file 'outputs/synth.ddc'.
+1
+# writing out the netlist for pnr
+write_file -format verilog -hierarchy -output [format "outputs/%s.v" $design_toplevel]
+Writing verilog file '/home/zixiaoh3/ece425.work/pnr_provide/synth/outputs/cpu.v'.
+Warning: Verilog 'assign' or 'tran' statements are written out. (VO-4)
+Warning: Verilog writer has added 32 nets to module datapath using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+1
+# writing out the sdc file, used for timing information
+# in this class this file will be empty
+# in reality, this will contain actual contraints created eariler in this script
+write_sdc [format "outputs/%s.sdc" $design_toplevel]
+1
+1
+dc_shell> 
+Memory usage for this session 162 Mbytes.
+Memory usage for this session including child processes 162 Mbytes.
+CPU usage for this session 12 seconds ( 0.00 hours ).
+Elapsed time for this session 28 seconds ( 0.01 hours ).
+
+Thank you...
