@@ -1,0 +1,1 @@
+/home/zixiaoh3/ece425/pnr_provide/synth/outputs/control.sdc

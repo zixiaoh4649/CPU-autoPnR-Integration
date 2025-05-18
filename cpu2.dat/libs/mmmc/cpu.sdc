@@ -1,0 +1,1 @@
+/home/zixiaoh3/ece425.work/pnr_provide/synth/outputs/cpu.sdc
